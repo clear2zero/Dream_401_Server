@@ -1,0 +1,23 @@
+
+package --package;
+
+import org.junit.Test;
+
+import sto.common.test.BaseTest;
+
+import --daoFullName;
+import --enitytFullName;
+
+/**
+ * @Description: test
+ * @author --author
+ * @date --date
+ * 
+ */
+public class --className extends BaseTest {
+
+	@Test
+	public void testList(){
+		
+	}
+}

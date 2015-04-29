@@ -1,0 +1,53 @@
+
+package --package;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import --serviceFullName;
+import --enitytFullName;
+
+import sto.common.web.BaseAction;
+
+/**
+ * @Description:
+ * @author --author
+ * @date --date
+ * 
+ */
+@Controller
+@RequestMapping(value = "/--visitName")
+public class --className extends BaseAction{
+
+	@Autowired
+	--serviceClass --serviceClassName;
+	public static final String RELOAD = "redirect:/--visitName/";
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public String list() {
+		
+		return "--ppackage/--visitName";
+	}
+	@RequestMapping(value="add",method=RequestMethod.GET)
+	public String add(Model model){
+		
+		return "--ppackage/--visitNameForm";
+	}
+	
+	@RequestMapping(value="add",method=RequestMethod.POST)
+	public String add(--entityClass --entityClassName,Model model,RedirectAttributes redirectAttributes){
+		
+		return RELOAD;
+	}
+	
+	public String del(Model model){
+		
+		return RELOAD;
+	}
+}

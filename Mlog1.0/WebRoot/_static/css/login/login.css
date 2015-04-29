@@ -1,0 +1,46 @@
+#nosure {	color: #0066CC;
+	text-decoration: none;}
+#nosure:hover {color: #FF6600;
+	text-decoration: underline;}
+
+#downclient_center{
+border:2px solid #fff; 
+filter:alpha(opacity=80);
+position:absolute;
+left:300px;
+padding-top:60px;
+top:200px;
+height:200px;
+margin:50px auto; 
+width:400px;
+display:none;
+background-color:#ddd;
+} 
+#downclient_loading{ 
+width:318px; 
+height:31px; 
+background:url(../images/bak.png) no-repeat; 
+text-align:center;
+margin:0 auto;
+} 
+#downclient_loading div{ 
+width:0px; 
+height:30px; 
+background:url(../images/pro.png) no-repeat; 
+color:#fff; 
+text-align:center; 
+font-family:Tahoma; 
+font-size:18px; 
+line-height:30px; 
+} 
+#downclient_message{ 
+width:210px; 
+height:35px; 
+font-family:Tahoma; 
+font-size:16px; 
+border:0px solid #187CBE; 
+display:none; 
+line-height:35px; 
+text-align:center; 
+margin:0 auto 10px;
+}

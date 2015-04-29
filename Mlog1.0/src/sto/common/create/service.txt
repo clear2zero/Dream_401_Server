@@ -1,0 +1,25 @@
+package --package;
+
+import org.hibernate.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import sto.common.service.BaseServiceImpl;
+
+import --enitytFullName;
+import --daoFullName;
+
+/**
+ * @ClassName: --className
+ * @Description: service
+ * @author --author
+ * @date --date
+ * 
+ */
+@Service
+public class --className extends BaseServiceImpl<--entityClass>{
+	@Autowired
+	private --daoClass --daoClassName;
+	
+
+}

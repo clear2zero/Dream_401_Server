@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+	PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+	"http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+
+<taglib>
+    <tlibversion>1.0</tlibversion>
+    <jspversion>1.1</jspversion>
+    <shortname>tabview</shortname>
+	<info>
+		Claros TabView JSP tag library
+	</info>
+	<tag>
+		<name>tabview</name>
+		<tagclass>org.claros.taglibs.tab.TabViewTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<info>TabView</info>
+		<attribute>
+			<name>width</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>className</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>activeClassName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>inactiveClassName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>spaceClassName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>tabBodyActiveClassName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>tabBodyInactiveClassName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>tab</name>
+		<tagclass>org.claros.taglibs.tab.TabTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<info>Tab</info>
+		<attribute>
+			<name>height</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>width</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>activeClassName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>inactiveClassName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>text</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>

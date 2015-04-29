@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+/**-----------Header--------*/
+body{
+	font-size:1em;
+	line-height:2;
+	font-family:"微软雅黑";
+	padding:0;
+	margin:0;
+	}
+.header
+{
+	height:65px;
+	background:url(../images/logotop_01_3.png) repeat-x;
+	overflow:hidden;
+	}
+.header1
+{
+	height:65px;
+	background-image: url(../images/logotop_01_2.png);
+	background-repeat:no-repeat;
+	width:1360px;
+	overflow:hidden;
+	}
+.brand{width:160px;background: url(../images/logo_05.png) no-repeat;float:left;font-family:Helvetica, Georgia, Arial, sans-serif, 黑体;font-size:26px;padding-left:33px;display:block;float:left;padding:0px 30px 0px;margin-left:15px;font-weight:200;color:#777;text-shadow:0 1px 0 #fff;min-height:65px;}
+.item-list{width:1320px;*position:relative;*z-index:2;margin-bottom:20px;overflow:visible;}
+.item-fixed-top{position:fixed;right:0;left:0;z-index:1030;margin-bottom:0}
+.item-inner{box-shadow:0px 1px 10px rgba(0,0,0,0.1);-webkit-box-shadow:0 1px 4px rgba(0,0,0,0.065);-moz-box-shadow:0 1px 4px rgba(0,0,0,0.065);min-height:65px;}
+.item-inner:before,.item-inner:after{display:table;line-height:0;content:""}
+.item-inner:after{clear:both}
+.item-collapse{float:left;overflow:visible}
+.item-menu{display:block;margin-left:0;list-style:none;}
+.item-menu>li{float:left;width:96px;margin-left:1px;}
+.item-menu>li>a{color:#555;font-size: 14px;display:block;float: none;padding: 17px 20px;text-shadow: 0px 1px 0px #fff;border-radius:6px;}
+.item-menu>li>a:hover,.item-menu>li>a:focus{text-decoration:none;background-color:#eee}
+.loginInfo{float:right; padding: 17px 20px;font-size: 14px;color:white}
+.warn{float:right; padding: 40px 20px;font-size: 14px;}
+.loginInfo a{color:#ffff00}
+.loginInfo a:hover{color:#FFFFFF}

@@ -1,0 +1,10 @@
+@charset "utf-8";
+.label{
+	font-size:12px;
+	text-align:right;
+}
+.label-required{
+	font-size: 12px;
+	color:red;
+	text-align:right;
+}

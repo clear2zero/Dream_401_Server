@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+	default-lazy-init="true">
+
+	<description>Shiro安全配置</description>
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!-- 
+		<property name="sessionManager" ref="defaultWebSessionManager" /> 
+		 -->
+		<property name="realm" ref="shiroCARealm"/>	
+		<property name="cacheManager" ref="memoryConstrainedCacheManager" />  			
+	</bean>
+	<bean id="memoryConstrainedCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>
+	
+	<bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">  
+    	<property name="globalSessionTimeout" value="1200000" />  
+    	 <property name="sessionDAO" ref="customShiroSessionDAO" />
+	</bean>  
+	
+	<bean id="customShiroSessionDAO" class="sto.service.account.CustomShiroSessionDAO">  
+  	  <property name="shiroSessionRepository" ref="memcachedShiroSessionRepository" />  
+	</bean>  
+	
+	<bean id="memcachedShiroSessionRepository" class="sto.service.account.MemcachedShiroSessionRepository" />  
+	
+	<!-- 項目自定义的Realm, 所有accountService依赖的dao都需要用depends-on声明 -->
+	<bean id="shiroCARealm" class="sto.service.account.ShiroCARealm"/>
+	
+	<bean id="chainDefinitionSectionMetaSource" class="sto.service.account.ChainDefinitionSectionMetaSource">
+		<property name="filterChainDefinitions">
+			<value>
+				<!-- URL匹配成功便不再继续匹配查找。所以要注意配置文件中的URL顺序，尤其在使用通配符时 -->
+				/account/login.action = authc
+				/account/front*.action = anon
+				/unit/front*.action = anon
+				/front/*.action = anon
+				/profiling/logout.do = logout
+				/webmail/AjaxLookupTemplateServlet.cl = anon
+				/qrcode.cl = anon
+				/ = anon
+				/loginRandom* = anon
+				/_static/** = anon
+				/WEB-INF/tld/** = anon
+				/js/** = anon
+				/includes/** = anon
+				/interface/** = anon
+				/download/* = anon
+				/*.jsp = anon
+				/layout/** = authc
+				/WEB-INF/sto_jsp/front/*.jsp = anon
+				/druid/* = roles[sysadmin]
+			</value>
+		</property>
+	</bean>
+
+	<!-- Shiro Filter 拦截器相关配置 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/account/login.action" />
+		<property name="successUrl" value="/account/loginEnd.action" />
+		<property name="filters">
+			<map>
+				<entry key="authc" value-ref="AuthenCAFilter" />
+				<entry key="perms" value-ref="URLPermissionsFilter" />
+			</map>
+		</property>
+		<property name="filterChainDefinitionMap" ref="chainDefinitionSectionMetaSource" />
+	</bean>
+	<bean id="AuthenCAFilter" class="sto.service.account.CaFormAuthenticationFilter"></bean>
+	<!-- 自定义鉴权拦截器 -->
+	<bean id="URLPermissionsFilter" class="sto.service.account.URLPermissionsFilter" /> 
+
+	<!-- 用户授权信息Cache, 采用EhCache -->
+	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:security/ehcache-shiro.xml" />
+	</bean>
+	<!-- 
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    	<property name="configLocation">  
+        	<value>classpath:security/ehcache-shiro.xml" </value>  
+      	</property> 
+    </bean>
+	<bean id="userCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+	 -->
+
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+</beans>

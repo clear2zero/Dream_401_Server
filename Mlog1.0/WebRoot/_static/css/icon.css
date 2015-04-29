@@ -1,0 +1,39 @@
+.menu_atd{
+	background:url('../images/icons/atd.png') no-repeat center center;
+}
+.menu_auth{
+	background:url('../images/icons/auth.png') no-repeat center center;
+}
+.menu_folder{
+	background:url('../images/icons/folder.png') no-repeat center center;
+}
+.menu_jou_q{
+	background:url('../images/icons/jou_q.png') no-repeat center center;
+}
+.menu_jou{
+	background:url('../images/icons/jou.png') no-repeat center center;
+}
+.menu_log{
+	background:url('../images/icons/log.png') no-repeat center center;
+}
+.menu_menu{
+	background:url('../images/icons/menu.png') no-repeat center center;
+}
+.menu_op{
+	background:url('../images/icons/op.png') no-repeat center center;
+}
+.menu_pub{
+	background:url('../images/icons/pub.png') no-repeat center center;
+}
+.menu_role{
+	background:url('../images/icons/role.png') no-repeat center center;
+}
+.menu_sys{
+	background:url('../images/icons/sys.png') no-repeat center center;
+}
+.menu_unit{
+	background:url('../images/icons/unit.png') no-repeat center center;
+}
+.menu_user{
+	background:url('../images/icons/user.png') no-repeat center center;
+}

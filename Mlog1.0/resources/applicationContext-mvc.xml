@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+						http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+						http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-4.0.xsd
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+	<mvc:annotation-driven />
+	<context:component-scan base-package="sto" >
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+		<!--  <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>-->
+	</context:component-scan>
+
+	<!-- 因为方法定义直接返回字符串时(Html或Json内容)，调用的是StringHttpMessageConverter，而此Converter默认编码是ISO-85591，需要重新设为UTF-8 -->
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+		    	<constructor-arg value="UTF-8" />
+			</bean>
+			<!-- 将Jackson2HttpMessageConverter的默认格式化输出设为true -->
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="prettyPrint" value="true"/>
+            </bean>			
+  		</mvc:message-converters>
+  		<mvc:argument-resolvers>
+			<bean class="other.SecureModelAttributeMethodArgumentResolver">
+				<constructor-arg value="false"/>
+			</bean>
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
+
+	<!-- 指定jsp路径 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/sto_jsp/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="1"/> 
+	</bean>
+	<!-- 定义aspectj -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL-->	
+	<mvc:default-servlet-handler />
+	<!-- 拦截器配置 -->
+	<mvc:interceptors>
+		<bean class="sto.common.aop.LogInterceptor"></bean>
+		<!-- <mvc:interceptor>
+           <mvc:mapping path="/interface/writeJournal.action" />
+           <mvc:mapping path="/interface/replyJournal.action" />
+           <mvc:mapping path="/interface/sendMsg.action" />
+           <mvc:mapping path="/interface/replyMsg.action" />
+           <mvc:mapping path="/journal/saveDo.action" />
+           <mvc:mapping path="/journal/replyJournal.action" />
+           <bean class="sto.common.aop.PushMessageInterceptor"></bean>  
+        </mvc:interceptor> -->
+        <mvc:interceptor>
+           <mvc:mapping path="/interface/writeJournal.action" />
+           <mvc:mapping path="/interface/replyJournal.action" />
+           <mvc:mapping path="/interface/sendMsg.action" />
+           <mvc:mapping path="/interface/replyMsg.action" />
+           <mvc:mapping path="/journal/saveDo.action" />
+           <mvc:mapping path="/journal/replyJournal.action" />
+           <bean class="sto.common.aop.JPushInterceptor"></bean>  
+        </mvc:interceptor>
+        <mvc:interceptor>
+           <mvc:mapping path="/user/saveDo.action" />
+           <mvc:mapping path="/user/updateDo.action" />
+           <mvc:mapping path="/user/delete.action" />
+           <bean class="sto.common.aop.UserInterceptor"></bean>  
+        </mvc:interceptor>
+	</mvc:interceptors>
+</beans>

@@ -1,0 +1,8 @@
+win平台下，
+
+将对应位数的的dll放到 system32下 和 jre的bin下
+
+
+linux 
+
+将对应位数的so放到jre的bin下和环境变量下

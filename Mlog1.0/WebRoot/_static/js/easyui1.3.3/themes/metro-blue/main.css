@@ -1,0 +1,72 @@
+@charset "utf-8";
+
+.login{
+	background:url('../images/login_01.gif') no-repeat;
+}
+.footerdiv{
+	height: 30px; background: #c3d9e0; 
+}
+.headdiv{
+	overflow: hidden; height: 55px;color:#6caef5;
+        line-height: 20px;background: #c3d9e0;
+}
+.footf {
+	background: #6caef5;
+	text-align: center;
+	color: black;
+	line-height: 23px;
+	font-weight: 700;
+	margin: 0;
+	padding: 0;
+}
+.easyui-accordion ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 8px;
+}
+
+.easyui-accordion ul li {
+	padding: 0px;
+}
+
+.easyui-accordion ul li a {
+	line-height: 19px;
+	text-decoration: none;
+}
+
+.easyui-accordion ul li div {
+	margin: 0px;
+	padding-left: 10px;
+	padding-top: 2px;
+	height: 22px;
+}
+
+.easyui-accordion ul li div.hover {
+	border: 1px dashed #99BBE8;
+	background: #E0ECFF;
+	cursor: pointer;
+}
+
+.easyui-accordion ul li div.hover a {
+	color: #416AA3;
+	text-decoration: none;
+}
+
+.easyui-accordion ul li div.selected {
+	border: 1px solid #99BBE8;
+	background: #E0ECFF;
+	cursor: default;
+}
+
+.easyui-accordion ul li div.selected a {
+	color: #416AA3;
+	font-weight: bold;
+}
+
+.nav {
+	padding-left: 12px;
+    color: black;
+    font-size:12px;
+    
+}
+

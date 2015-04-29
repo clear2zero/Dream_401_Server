@@ -1,0 +1,22 @@
+package --package;
+
+import org.springframework.stereotype.Repository;
+
+import sto.common.dao.BaseDao;
+
+import --enitytFullName;
+
+
+/** 
+ * @ClassName: --className 
+ * @Description: dao
+ * @author --author
+ * @date --date
+ *  
+ */
+@Repository
+public class --className extends BaseDao<--entityClass> {
+	
+
+	
+}

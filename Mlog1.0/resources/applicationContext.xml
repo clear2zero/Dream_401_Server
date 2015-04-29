@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/tx   http://www.springframework.org/schema/tx/spring-tx.xsd 
+		http://www.springframework.org/schema/mvc  http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
+	default-lazy-init="true">
+
+	<description>Spring公共配置 </description>
+
+	<context:component-scan base-package="sto">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:/db.properties</value>
+				<value>classpath:/mlog.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 配置DataSource数据源 -->
+	<!-- 
+	<bean id="dataSource" class="other.DataSourceAdapter"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="${write.connection.url}" />
+		<property name="username" value="${write.connection.username}" />
+		<property name="password" value="${write.connection.password}" />
+		<property name="initialSize" value="${write.connection.initialSize}" />
+		<property name="maxActive" value="${write.connection.maxActive}" />
+		<property name="maxIdle" value="${write.connection.maxIdle}" />
+		<property name="maxWait" value="${write.connection.maxWait}" />
+		<property name="defaultAutoCommit" value="${write.connection.defaultAutoCommit}" />
+		<property name="poolPreparedStatements" value="${write.connection.poolPreparedStatements}" />
+		<property name="removeAbandoned" value="${write.connection.removeAbandoned}" />
+		<property name="removeAbandonedTimeout" value="${write.connection.removeAbandonedTimeout}" />
+		<property name="logAbandoned" value="${write.connection.logAbandoned}" />
+		<property name="testOnBorrow" value="${write.connection.testOnBorrow}" />
+		<property name="validationQuery" value="${write.connection.validationQuery}" />
+	</bean>
+ -->
+	<!-- 配置SessionFactory,由Spring容器来管理Hibernate -->
+		<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+		    <!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->
+		    <property name="driverClassName" value="${jdbc.driver}" />
+		    
+			<!-- 基本属性 url、user、password -->
+			<property name="url" value="${jdbc.url}" />
+			<property name="username" value="${jdbc.username}" />
+			<property name="password" value="${jdbc.password}" />
+			
+			<!-- 配置初始化大小、最小、最大 -->
+			<property name="initialSize" value="${jdbc.pool.minIdle}" />
+			<property name="minIdle" value="${jdbc.pool.minIdle}" /> 
+			<property name="maxActive" value="${jdbc.pool.maxActive}" />
+			
+			<!-- 配置获取连接等待超时的时间 -->
+			<property name="maxWait" value="60000" />
+			
+			<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+			<property name="timeBetweenEvictionRunsMillis" value="60000" />
+			
+			<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+			<property name="minEvictableIdleTimeMillis" value="300000" />
+			
+			<property name="validationQuery" value="SELECT 'x'" />
+			<property name="testWhileIdle" value="true" />
+			<property name="testOnBorrow" value="false" />
+			<property name="testOnReturn" value="false" />
+			
+			<!-- 打开PSCache，并且指定每个连接上PSCache的大小（Oracle使用）
+			<property name="poolPreparedStatements" value="true" />
+			<property name="maxPoolPreparedStatementPerConnectionSize" value="20" /> -->
+			
+			<!-- 配置监控统计拦截的filters -->
+		    <property name="filters" value="stat" /> 
+		</bean>
+	<bean id="jdbcTemplateSQL" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+<!-- 定义Hibernate Session工厂 -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> 
+		<property name="dataSource" ref="dataSource"/>
+		<property name="packagesToScan" value="sto"/><!-- 如果多个，用“,”分隔 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+				<prop key="net.sf.ehcache.configurationResourceName">${hibernate.ehcache.configFile}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.search.default.directory_provider">filesystem</prop>
+				<prop key="hibernate.search.default.indexBase">${hibernate.search.default.indexBase}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+			</props>
+		</property>
+		<property name="namingStrategy">
+			<bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
+		</property>
+	</bean>
+	<!-- 事务管理器配置,单数据源事务 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务  -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	
+	<!-- 配置 JSR303 Bean Validator 定义 -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+	<!-- 缓存配置 -->
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:security/ehcache-shiro.xml" />
+	</bean>
+	<!-- 定义aspectj -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	<bean id="hostInfo" class="com.koal.svs.client.st.THostInfoSt">
+		<property name="svrIP" value="${partner.login.svsip}"></property>
+		<property name="port" value="${partner.login.svsport}"></property>
+	</bean>
+</beans>
